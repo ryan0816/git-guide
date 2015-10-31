@@ -12,7 +12,7 @@ public class Simulator {
     public static int getYear() {
         return currentYear;
     }
-
+// Can you see this
     public static void main(String[] args) {
         ArrayList<String> simulationEvents = new ArrayList<String>();
         ArrayList<Human> comunity = new ArrayList<Human>();
