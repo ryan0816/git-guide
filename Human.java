@@ -154,7 +154,7 @@ public class Human {
             deceased.add(this);
             return "Unfortunatly " + this.name + "has passed away at age " + this.age;
         } else {
-            return this.name " is healthy as ever!"; //could change based on what his health value actually is
+            return this.name + " is healthy as ever!"; //could change based on what his health value actually is
         }
     }
     
