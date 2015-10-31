@@ -135,8 +135,16 @@ public class Human {
         return "Not yet supported";
     }
     
+
+
+    private double kidsProbability() {
+        //probability = 9E-05*(age)^3 - 0.0098(age)^2 + 0.322*age - 2.2326
+        return 0.5;  // make this a function of age
+    }
+
     public String tryForKids(ArrayList<Human> newChildren) {
-        return "Not yet supported";
+        if (rand.nextDouble() < kidsProbability())
+            return giveBirth(new Human);
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
@@ -147,8 +155,10 @@ public class Human {
         }
         if (health < 0) {
             deceased.add(this);
+            return "Unfortunatly " + this.name + "has passed away at age " + this.age;
+        } else {
+            return this.name " is healthy as ever!"; //could change based on what his health value actually is
         }
-        return "Not yet supported";
     }
     
 }
