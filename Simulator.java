@@ -1,17 +1,11 @@
-package engl;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class Simulator {
-    private static int startYear;
-    private static int currentYear;
-    
-    public static int getYear() {
-        return currentYear;
-    }
+    public static final int startYear = 2015;
+    public static int currentYear = 2015;
 
     public static void main(String[] args) {
         ArrayList<String> simulationEvents = new ArrayList<String>();
@@ -30,7 +24,7 @@ public class Simulator {
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int year = 2015;
-        while (Simulator.getYear() < 2115) {
+        while (currentYear < 2115) {
             ArrayList<Human> newChildren = new ArrayList<Human>();
             ArrayList<Human> deceased = new ArrayList<Human>();
             
@@ -51,8 +45,9 @@ public class Simulator {
                 // check to make sure the person survived another year    
                 simulationEvents.add(person.checkVitals(deceased));
             }
+            currentYear++;
             comunity.remove(deceased);
-            comunity.add(newChildren);
+            comunity.addAll(newChildren);
         }
     }
 }
