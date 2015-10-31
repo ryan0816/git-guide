@@ -48,17 +48,13 @@ public class Human {
     }
 
     public String marry(Human toWed) {
-        String ret = new String();
-        ret += name + " asked " + toWed.name + " to marry " + (gender.equals("male") ? "him\n" : "her\n");
         if (spouse == null && toWed.spouse == null) {
             spouse = toWed;
             toWed.spouse = this;
-            ret += "Marriage accepted";
+            return name + " and " + spouse.name + " are now married";
         } else {
-            ret += "Someone already has a spouse";
+            return (spouse != null ? name : toWed.name) + " is already married";
         }
-        
-        return ret;
     }
 
     public String divorce() {
@@ -85,6 +81,7 @@ public class Human {
         }
 
         children.add(child);
+        spouse.children.add(child);
         return name + " and " + spouse.name + " gave birth to a baby named " + child.name;
     }
 
