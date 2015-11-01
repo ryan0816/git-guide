@@ -1,5 +1,5 @@
 run: Simulator.class
-	java Simulator
+	java Simulator > simulation_output.txt
 
 Human.class: Human.java
 	javac Human.java
