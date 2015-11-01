@@ -31,7 +31,7 @@ public class Simulator {
         while (currentYear < 2115) {
             ArrayList<Human> newChildren = new ArrayList<Human>();
             ArrayList<Human> deceased = new ArrayList<Human>();
-            
+            simulationEvents.add("----------------------------- " + currentYear + " -----------------------------");
             // each year you meet a friend
             Human newFriend;
             for (Human person : community) {
@@ -49,6 +49,9 @@ public class Simulator {
                 
                 // check to make sure the person survived another year    
                 simulationEvents.add(person.checkVitals(deceased));
+
+                // wrap up the year with a summary of births and deaths
+                //simulationEvents.add(yearEndSummery(deceased, newChildren));
             }
             currentYear++;
             community.remove(deceased);
@@ -58,7 +61,7 @@ public class Simulator {
         for (String line : simulationEvents) {
             System.out.println(line);
         }
-        System.out.println("The community grew from a mear 8 strangers to" + 
+        System.out.println("The community grew from a mear 11 strangers to" + 
             " blossoming community of " + community.size() + " members!");
     }
 }

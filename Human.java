@@ -10,6 +10,7 @@ public class Human {
     // Human instance Variables
     public String name;
     private int age;
+    private final int startingAge;
     public int health;
     public String ethnicity;
     public String gender;
@@ -39,7 +40,7 @@ public class Human {
     public Human(String name, int age, String ethnicity, String gender, 
             int salary) {
         this.name = name;
-        this.age = age;
+        this.startingAge = this.age = age;
         health = 1;
         this.ethnicity = ethnicity;
         this.gender = gender;
@@ -82,8 +83,8 @@ public class Human {
         return lines;
     }
 
-    public int getAge() {
-        return Simulator.currentYear - Simulator.startYear + age;
+    public int updateAge() {
+        return age = Simulator.currentYear - Simulator.startYear + startingAge;
     }
 
     public String introduce() {
@@ -178,7 +179,7 @@ public class Human {
     
     public String spendTimeWith(Human otherPerson) {
         if (otherPerson.name.equals(this.name)) {
-            return name + " spent the year by themselves"
+            return name + " spent the year by themselves";
         } else if (friends.contains(otherPerson)) {
             return name + " had a great time hanging out with their friend " + otherPerson.name;
         } else {
@@ -194,7 +195,7 @@ public class Human {
                 return makeNewFriend(otherPerson);
             } else {
                 return name + " did not become friends with " + otherPerson.name + 
-                                " after spending time together :("; 
+                                " after spending a year together :("; 
             }
         }
     }
@@ -212,7 +213,7 @@ public class Human {
                 if (rand.nextDouble() < STRAIGHT_MARRAGE_PROBABILITY)
                     return marry(friends.get(rand.nextInt(friends.size())));    
             }
-            return name + " proposed to " + potentialSpouse + " but was rejected :(";
+            return name + " proposed to " + potentialSpouse.name + " but was rejected :(";
         } else {
             return name + " needs to make friends first before concidering marrage";
         }
@@ -239,12 +240,13 @@ public class Human {
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
+        updateAge();
         int ageThresholdReached = (age >= AGE_HEALTH_THRESHOLD ? -1 : 1);     
         health += (rand.nextInt(3) + 1) * ageThresholdReached;
 
         if (health < 0) {
             deceased.add(this);
-            return "Unfortunatly " + name + "has passed away at age " + age;
+            return "Unfortunatly " + name + " has passed away at age " + age;
         } else {
             if (age >= AGE_HEALTH_THRESHOLD) {
                 return name + "'s health is declining. Life expectancy: " + health + "-" + health*3 + " years";
