@@ -86,11 +86,14 @@ public class Human {
     }
 
     public String marry(Human toWed) {
-        if (age < 18) {
-            return name + " is too young to be married";
+        if (age < 18 || toWed.age < 18) {
+            return (age < 18 ? name : toWed.name) + 
+                    " is too young to be married";
         } else if (toWed.name.equals(name)) {
-            return name + "trying to marry them selves!! Unfortunatly " + 
-                    name + " is still single";
+            return name + " is trying to marry " + 
+                    (gender.equals("male") ? "himself" : "herself") + 
+                    "!! Unfortunatly, " + 
+                    (gender.equals("male") ? "he" : "she") + " is still single";
         } else if (spouse == null && toWed.spouse == null) {
             spouse = toWed;
             toWed.spouse = this;
@@ -191,7 +194,7 @@ public class Human {
         if (friends.size() > 0)
             return marry(friends.get(rand.nextInt(friends.size())));
         else 
-            return name + " does not have any friends to be able to marry :(";
+            return name + " needs to make friends before he can wed";
     }
     
     private double fertilityProbability() {
@@ -205,8 +208,8 @@ public class Human {
         String gender = rand.nextBoolean() ? "male" : "female";
         Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
                 0, ethnicity, gender, 0);
-        if (rand.nextDouble() < fertilityProbability())
-            return gender.equals("male") && spouse != null ? 
+        if (rand.nextDouble() < kidsProbability())
+            return gender.equals("male") ? 
                     spouse.giveBirth(newChild, listOfNewChildren) : 
                     giveBirth(newChild, listOfNewChildren);
         else 
@@ -225,7 +228,7 @@ public class Human {
             return "Unfortunatly " + name + "has passed away at age " + 
                     age;
         } else {
-            return name + " is healthy as ever!"; 
+            return name + " is alive and kicking"; 
                         //could change based on what his health value actually is
         }
     }
