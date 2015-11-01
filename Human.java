@@ -25,7 +25,7 @@ public class Human {
     private Random rand;
     private static final double AGE_PROBABILTY = 0.5;
     private static final double ETHNICITY_PROBABILITY = 0.2;
-    private static final ArrayList<String> randNames;
+    private static final ArrayList<String> randNames = getRandomPeople();
 
     /**
      * Initialize the instance variables for a human
@@ -45,7 +45,6 @@ public class Human {
         this.salary = salary;
         employed = salary > 0 ? true : false;
 
-        randNames = getRandomPeople();
         rand = new Random();
         rand.setSeed(System.currentTimeMillis());
     }
@@ -56,7 +55,7 @@ public class Human {
         rand.setSeed(seed);
     }
 
-    private ArrayList<String> getRandomPeople() {
+    private static ArrayList<String> getRandomPeople() {
         ArrayList<String> lines = null;
 
         try {
