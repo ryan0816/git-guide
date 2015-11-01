@@ -18,26 +18,32 @@ public class Human {
     public int salary;
 
     private Random rand;
-    private final double AGE_PROBABILTY = 0.5;
-    private final double ETHNICITY_PROBABILITY = 0.20;
+    private final double AGE_PROBABILTY;
+    private final double ETHNICITY_PROBABILITY;
 
     /**
      * Initialize the instance variables for a human
      */
-    public Human(String name, int age, String ethnicity, String gender, boolean employed, int salary) {
+    public Human(String name, int age, String ethnicity, String gender, 
+            boolean employed, int salary) {
         this.name = name;
         this.age = age;
+        this.health = 1;
         this.ethnicity = ethnicity;
         this.gender = gender;
+
         spouse = null;
-        this.health = 1;
         children = new LinkedList<Human>();
         friends = new LinkedList<Human>();
+        
         rand = new Random();
         rand.setSeed(System.currentTimeMillis());
+        AGE_PROBABILTY = 0.5;
+        ETHNICITY_PROBABILITY = 0.20;
     }
 
-    public Human(String name, int age, String ethnicity, String gender, boolean employed, int salary, long seed) {
+    public Human(String name, int age, String ethnicity, String gender, 
+            boolean employed, int salary, long seed) {
         this(name, age, ethnicity, gender, employed, salary);
         rand.setSeed(seed);
     }
@@ -54,8 +60,7 @@ public class Human {
         if (toWed.name.equals(this.name)) {
             return this.name + "trying to marry them selves!! Unfortunatly " + 
                     this.name + " is still single";
-        }
-            (spouse == null && toWed.spouse == null) {
+        } else if (spouse == null && toWed.spouse == null) {
             spouse = toWed;
             toWed.spouse = this;
             return name + " and " + spouse.name + " are now married";
@@ -89,15 +94,17 @@ public class Human {
 
         children.add(child);
         spouse.children.add(child);
-        return name + " and " + spouse.name + " gave birth to a baby named " + child.name;
+        return name + " and " + spouse.name + " gave birth to a baby named " + 
+                child.name;
     }
 
     public String getJob(int money) {
         if (employed != true) {
             employed = true;
             salary = money;
-            return name + " found a job that is paying " + (gender.equals("male") ? "him" : "her") + " "
-                    + salary + " per year";
+            return name + " found a job that is paying " + 
+                    (gender.equals("male") ? "him" : "her") + " " + 
+                    salary + " per year";
         } else {
             return name + " already has a job";
         }
@@ -107,9 +114,11 @@ public class Human {
         if (employed == true) {
             employed = false;
             salary = 0;
-            return name + " has left " + (gender.equals("male") ? "his" : "her") + " job";
+            return name + " has left " + 
+                    (gender.equals("male") ? "his" : "her") + " job";
         } else {
-            return name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave";
+            return name + " does not have a job " + 
+                    (gender.equals("male") ? "he" : "she") + " can leave";
         }
     }
 
@@ -156,7 +165,8 @@ public class Human {
         }
         if (health < 0) {
             deceased.add(this);
-            return "Unfortunatly " + this.name + "has passed away at age " + this.age;
+            return "Unfortunatly " + this.name + "has passed away at age " + 
+                    this.age;
         } else {
             return this.name + " is healthy as ever!"; //could change based on what his health value actually is
         }
