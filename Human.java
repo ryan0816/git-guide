@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 public class Human {
     private final double AGE_PROBABILTY = 0.5;
     private final double ETHNICITY_PROBABILITY = 0.20;
@@ -18,11 +23,11 @@ public class Human {
      */
     public Human(String name, int age, String ethnicity, String gender, boolean employed, int salary) {
         this.name = name;
-        startYear = currentYear = 2015;
         this.age = age;
         this.ethnicity = ethnicity;
         this.gender = gender;
         spouse = null;
+        this.health = 1;
         children = new LinkedList<Human>();
         friends = new LinkedList<Human>();
         rand = new Random();
@@ -34,19 +39,8 @@ public class Human {
         rand.setSeed(seed);
     }
 
-    /**
-     * increase the year by 1
-     */
-    public void newYear() {
-        currentYear++;
-        if (getAge() < 40) {
-            health += rand.nextInt();
-        }
-
-    }
-
     public int getAge() {
-        return currentYear - startYear + age;
+        return Simulator.currentYear - Simulator.startYear + age;
     }
 
     public String introduce() {
@@ -69,9 +63,11 @@ public class Human {
 
     public String divorce() {
         if (spouse != null) {
-            return name + " and " + spouse.name + " divorced";
+            String ret;
+            ret =  name + " and " + spouse.name + " divorced";
             spouse.spouse = null;
             spouse = null;
+            return ret;
         } else {
             return name + " isn't even married";
         }
@@ -144,6 +140,14 @@ public class Human {
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
+        if (age < 30) {
+            health++;
+        } else {
+            health--;
+        }
+        if (health < 0) {
+            deceased.add(this);
+        }
         return "Not yet supported";
     }
     
