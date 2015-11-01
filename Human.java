@@ -25,8 +25,13 @@ public class Human {
     private Random rand;
     private static final double AGE_PROBABILTY = 0.5;
     private static final double ETHNICITY_PROBABILITY = 0.2;
+    private static final double GAY_MARRAGE_PROBABILITY = 0.03;
+    private static final double STRAIGHT_MARRAGE_PROBABILITY = 0.10;
+    private static final double GAY_MARRAGE_PROBABILITY = 0.05;
     private static final double BASE_FRIENDSHIP_PROBABILTY = 0.75;
+
     private static final int AGE_HEALTH_THRESHOLD = 40;
+
     private static final ArrayList<String> randNames = getRandomPeople();
 
     /**
@@ -193,10 +198,21 @@ public class Human {
     }
     
     public String pursueMarrage() {
-        if (friends.size() > 0)
-            return marry(friends.get(rand.nextInt(friends.size())));
-        else 
-            return name + " needs to make friends before he can wed";
+        if (friends.size() > 0) {
+            potentialSpouse = friends.get(rand.nextInt(friends.size()));
+            if (potentialSpouse.gender.equals(gender)) {
+                // see if a gay marrage could happen
+                if (rand.nextDouble() < GAY_MARRAGE_PROBABILITY)
+                    return marry(potentialSpouse);
+            } else {
+                // see if a straight marrage will happen
+                if (rand.nextDouble() < STRAIGHT_MARRAGE_PROBABILITY)
+                    return marry(friends.get(rand.nextInt(friends.size())));    
+            }
+            return name + " proposed to " + potentialSpouse + " but was rejected :("
+        } else {
+            return name + " needs to make friends first before concidering marrage";
+        }
     }
     
     private static double fertilityProbability(int wifes_age) {
