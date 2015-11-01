@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Human {
     public String name;
@@ -21,25 +24,47 @@ public class Human {
     private final double AGE_PROBABILTY = 0.5;
     private final double ETHNICITY_PROBABILITY = 0.20;
 
+    private final ArrayList<String> randNames;
+
     /**
      * Initialize the instance variables for a human
      */
-    public Human(String name, int age, String ethnicity, String gender, boolean employed, int salary) {
+    public Human(String name, int age, String ethnicity, String gender, int salary) {
         this.name = name;
         this.age = age;
         this.ethnicity = ethnicity;
         this.gender = gender;
         spouse = null;
         this.health = 1;
+        this.employed = salary > 0 ? true : false;  
         children = new LinkedList<Human>();
         friends = new LinkedList<Human>();
+        randNames = getRandomPeople();
         rand = new Random();
         rand.setSeed(System.currentTimeMillis());
     }
 
-    public Human(String name, int age, String ethnicity, String gender, boolean employed, int salary, long seed) {
-        this(name, age, ethnicity, gender, employed, salary);
+    public Human(String name, int age, String ethnicity, String gender, 
+                    int salary, long seed) {
+        this(name, age, ethnicity, gender, salary);
         rand.setSeed(seed);
+    }
+
+    private ArrayList<String> getRandomPeople() {
+        ArrayList<String> lines = null;
+        try {
+            FileReader fileReader = new FileReader("names.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            lines = new ArrayList<String>();
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null)
+                lines.add(line);
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } 
+        return lines;
     }
 
     public int getAge() {
@@ -54,8 +79,7 @@ public class Human {
         if (toWed.name.equals(this.name)) {
             return this.name + "trying to marry them selves!! Unfortunatly " + 
                     this.name + " is still single";
-        }
-            (spouse == null && toWed.spouse == null) {
+        } else if (spouse == null && toWed.spouse == null) {
             spouse = toWed;
             toWed.spouse = this;
             return name + " and " + spouse.name + " are now married";
@@ -76,12 +100,11 @@ public class Human {
         }
     }
 
-    public String giveBirth(Human child) {
+
+    // assumes giveBirth is called with a married Human
+    public String giveBirth(Human child, ArrayList<Human> newChildren) {
         if (!gender.equals("female")) {
             return name + " has to be a female to give birth";
-        }
-        if (spouse == null) {
-            return name + " needs to be married to give birth";
         }
         if (!spouse.gender.equals("male")) {
             return name + " can only give birth if her spouse is a male";
@@ -89,6 +112,7 @@ public class Human {
 
         children.add(child);
         spouse.children.add(child);
+        newChildren.add(child);
         return name + " and " + spouse.name + " gave birth to a baby named " + child.name;
     }
 
@@ -97,7 +121,7 @@ public class Human {
             employed = true;
             salary = money;
             return name + " found a job that is paying " + (gender.equals("male") ? "him" : "her") + " "
-                    + salary + " per year";
+                + salary + " per year";
         } else {
             return name + " already has a job";
         }
@@ -135,17 +159,28 @@ public class Human {
     }
     
     public String pursueMarrage() {
-        Human potentialSpouse = friends.get(rand.nextInt(friends.size())); 
-        return marry(potentialSpouse);
+        if (friends.size() > 0)
+            return marry(friends.get(rand.nextInt(friends.size())));
+        else 
+            return name + " does not have any friends to be able to marry :(";
     }
     
     private double kidsProbability() {
         return -0.0016 * this.age * this.age + 0.0754 * this.age + 0.0352;
     }
 
-    public String tryForKids(ArrayList<Human> newChildren) {
+    public String tryForKids(ArrayList<Human> listOfNewChildren) {
+        if (spouse == null) {
+            return name + " needs to be married to give birth";
+        }
+        String gender = rand.nextBoolean() ? "male" : "female";
+        Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
+                0, this.ethnicity, gender, 0);
         if (rand.nextDouble() < kidsProbability())
-            return giveBirth(new Human);
+            return gender.equals("male") && spouse != null ? 
+                spouse.giveBirth(newChild, newChildren) : giveBirth(newChild, listOfNewChildren);
+        else 
+            return "Wasn't able to have kids";
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
@@ -158,7 +193,8 @@ public class Human {
             deceased.add(this);
             return "Unfortunatly " + this.name + "has passed away at age " + this.age;
         } else {
-            return this.name + " is healthy as ever!"; //could change based on what his health value actually is
+            return this.name + " is healthy as ever!"; 
+                        //could change based on what his health value actually is
         }
     }
     

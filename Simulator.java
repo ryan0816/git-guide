@@ -13,14 +13,14 @@ public class Simulator {
         Human andrew, bethany, riley, abhijeet, ashwin, luc, kelsey, baby;
 
         // Initialize the humans
-        comunity.add(new Human("Andrew", 23, "Vietnamese", "male", false, 0));
-        comunity.add(new Human("Bethany", 19, "Chinese", "female", true, 5000));
-        comunity.add(new Human("Riley", 23, "German", "male", false, 0));
-        comunity.add(new Human("Abhijeet", 23, "Indian", "male", false, 0));
-        comunity.add(new Human("Ashwin", 23, "Nepali", "male", true, 120000));
-        comunity.add(new Human("Luc", 27, "Vietnamese", "male", true, 70000));
-        comunity.add(new Human("Kelsey", 24, "Native American", "female", true, 50000));
-        comunity.add(new Human("Chuwali", 0, "Nepali", "female", false, 0));
+        comunity.add(new Human("Andrew", 23, "Vietnamese", "male", 0));
+        comunity.add(new Human("Bethany", 19, "Chinese", "female", 5000));
+        comunity.add(new Human("Riley", 23, "German", "male", 0));
+        comunity.add(new Human("Abhijeet", 23, "Indian", "male", 0));
+        comunity.add(new Human("Ashwin", 23, "Nepali", "male", 120000));
+        comunity.add(new Human("Luc", 27, "Vietnamese", "male", 70000));
+        comunity.add(new Human("Kelsey", 24, "Native American", "female", 50000));
+        comunity.add(new Human("Chuwali", 0, "Nepali", "female", 0));
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int year = 2015;
@@ -37,7 +37,8 @@ public class Simulator {
                 simulationEvents.add(person.makeNewFriend(newFriend));
                 
                 // this person may pursue marrage
-                simulationEvents.add(person.pursueMarried());
+            
+                simulationEvents.add(person.pursueMarrage());
                 
                 // this person may try to have kids
                 simulationEvents.add(person.tryForKids(newChildren));
@@ -49,5 +50,10 @@ public class Simulator {
             comunity.remove(deceased);
             comunity.addAll(newChildren);
         }
+
+        for (String line : simulationEvents) {
+            System.out.println(line);
+        }
+        System.out.println();
     }
 }
