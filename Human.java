@@ -71,7 +71,7 @@ public class Human {
 
     public String giveBirth(Human child) {
         if (!gender.equals("female")) {
-            return name + " has to be a female";
+            return name + " has to be a female to give birth";
         }
         if (spouse == null) {
             return name + " needs to be married to give birth";
@@ -96,14 +96,13 @@ public class Human {
         }
     }
 
-    public void leaveJob() {
+    public String leaveJob() {
         if (employed == true) {
             employed = false;
             salary = 0;
-            System.out.println(name + " has left " + (gender.equals("male") ? "his" : "her") + " job");
+            return name + " has left " + (gender.equals("male") ? "his" : "her") + " job";
         } else {
-            System.out.println(
-                    name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave");
+            return name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave";
         }
     }
 
