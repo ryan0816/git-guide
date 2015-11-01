@@ -27,7 +27,6 @@ public class Human {
     private static final double ETHNICITY_PROBABILITY = 0.2;
     private static final double GAY_MARRAGE_PROBABILITY = 0.03;
     private static final double STRAIGHT_MARRAGE_PROBABILITY = 0.10;
-    private static final double GAY_MARRAGE_PROBABILITY = 0.05;
     private static final double BASE_FRIENDSHIP_PROBABILTY = 0.75;
 
     private static final int AGE_HEALTH_THRESHOLD = 40;
@@ -178,7 +177,9 @@ public class Human {
     }
     
     public String spendTimeWith(Human otherPerson) {
-        if (friends.contains(otherPerson)) {
+        if (otherPerson.name.equals(this.name)) {
+            return name + " spent the year by themselves"
+        } else if (friends.contains(otherPerson)) {
             return name + " had a great time hanging out with their friend " + otherPerson.name;
         } else {
             // possibly make a friend!!
@@ -199,6 +200,7 @@ public class Human {
     }
     
     public String pursueMarrage() {
+        Human potentialSpouse;
         if (friends.size() > 0) {
             potentialSpouse = friends.get(rand.nextInt(friends.size()));
             if (potentialSpouse.gender.equals(gender)) {
@@ -210,7 +212,7 @@ public class Human {
                 if (rand.nextDouble() < STRAIGHT_MARRAGE_PROBABILITY)
                     return marry(friends.get(rand.nextInt(friends.size())));    
             }
-            return name + " proposed to " + potentialSpouse + " but was rejected :("
+            return name + " proposed to " + potentialSpouse + " but was rejected :(";
         } else {
             return name + " needs to make friends first before concidering marrage";
         }
