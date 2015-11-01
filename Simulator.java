@@ -21,6 +21,9 @@ public class Simulator {
         community.add(new Human("Luc", 27, "Vietnamese", "male", 70000));
         community.add(new Human("Kelsey", 24, "Native American", "female", 50000));
         community.add(new Human("Narin", 25, "Thailand", "female", 0));
+        community.add(new Human("Valery", 20, "Chinese", "female", 20000));
+        community.add(new Human("Victoria", 20, "Vietnamese", "female", 0));
+        community.add(new Human("Narin", 25, "Thailand", "female", 0));
 
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
