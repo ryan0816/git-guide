@@ -58,8 +58,9 @@ public class Human {
     }
 
     private ArrayList<String> getRandomPeople() {
+        ArrayList<String> lines = null;
+        
         try {
-            ArrayList<String> lines = null;
             FileReader fileReader = new FileReader("names.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             lines = new ArrayList<String>();
@@ -199,7 +200,7 @@ public class Human {
                 0, ethnicity, gender, 0);
         if (rand.nextDouble() < kidsProbability())
             return gender.equals("male") && spouse != null ? 
-                    spouse.giveBirth(newChild, newChildren) : 
+                    spouse.giveBirth(newChild, listOfNewChildren) : 
                     giveBirth(newChild, listOfNewChildren);
         else 
             return "Wasn't able to have kids";
