@@ -120,7 +120,7 @@ public class Human {
     }
 
     // assumes giveBirth is called with a married Human
-    public String giveBirth(Human child, ArrayList<Human> newChildren) {
+    public String giveBirth(Human baby, ArrayList<Human> kids) {
         if (!gender.equals("female")) {
             return name + " has to be a female to give birth";
         }
