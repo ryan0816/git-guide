@@ -34,7 +34,7 @@ public class Simulator {
                 // each year you spend time with someone in your community.
                 // if you aren't already friends you may become friends
                 newFriend = community.get(rand.nextInt(community.size()));
-                simulationEvents.add(person.makeNewFriend(newFriend));
+                simulationEvents.add(person.spendTimeWith(newFriend));
                 
                 // this person may pursue marrage
             

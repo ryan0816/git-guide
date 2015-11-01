@@ -25,6 +25,7 @@ public class Human {
     private Random rand;
     private static final double AGE_PROBABILTY = 0.5;
     private static final double ETHNICITY_PROBABILITY = 0.2;
+    private static final double BASE_FRIENDSHIP_PROBABILTY = 0.75;
     private static final ArrayList<String> randNames = getRandomPeople();
 
     /**
@@ -160,22 +161,30 @@ public class Human {
     private int ageDiff(int otherAge) {
         return otherAge >= age ? otherAge - age : age - otherAge;
     }
+
+    private String makeNewFriend(Human newFriend) {
+        if (newFriend)
+    }
     
-    public String makeNewFriend(Human newFriend) {
-        double chanceOfBeingFriends = 0.75;
-        // for every year you differ in age you decrease your chances of being friends by 10%
-        int ageDiff = ageDiff(newFriend.age);
-        chanceOfBeingFriends -= AGE_PROBABILTY * ageDiff;
-        
-        // if you are a different ethnicity you decrease your changce of being friends by 30%
-        int sameNationality = ethnicity.equals(newFriend.ethnicity) ? 0 : 1;
-        chanceOfBeingFriends -= ETHNICITY_PROBABILITY * sameNationality;
-        
-        if (rand.nextDouble() <= chanceOfBeingFriends) {
+    public String spendTimeWith(Human otherPerson) {
+        if (friends.contains(otherPerson)) {
+            return name + " had a great time hanging out with their friend " + otherPerson.name;
+        } else {
+            // possibly make a friend!!
+            double chanceOfBeingFriends = FRIENDSHIO_BASE_PROBABILTY;
+            // for every year you differ in age you decrease your chances of being friends by 10%
+            chanceOfBeingFriends -= AGE_PROBABILTY * ageDiff(newFriend.age);
+            // if you are a different ethnicity you decrease your changce of being friends by 30%
+            int sameNationality = ethnicity.equals(newFriend.ethnicity) ? 0 : 1;
+            chanceOfBeingFriends -= ETHNICITY_PROBABILITY * sameNationality;
             
+            if (rand.nextDouble() <= chanceOfBeingFriends) {
+                return makeNewFriend(newFriend);
+            } else {
+                return name + " did not become friends " + otherPerson.name + 
+                                " after spending time together"; 
+            }
         }
-        
-        return "Not yet supported";
     }
     
     public String pursueMarrage() {
@@ -185,7 +194,7 @@ public class Human {
             return name + " does not have any friends to be able to marry :(";
     }
     
-    private double kidsProbability() {
+    private double fertilityProbability() {
         return -0.0016 * age * age + 0.0754 * age + 0.0352;
     }
 
@@ -196,7 +205,7 @@ public class Human {
         String gender = rand.nextBoolean() ? "male" : "female";
         Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
                 0, ethnicity, gender, 0);
-        if (rand.nextDouble() < kidsProbability())
+        if (rand.nextDouble() < fertilityProbability())
             return gender.equals("male") && spouse != null ? 
                     spouse.giveBirth(newChild, listOfNewChildren) : 
                     giveBirth(newChild, listOfNewChildren);
