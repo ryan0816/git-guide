@@ -185,7 +185,7 @@ public class Human {
         if (friends.size() > 0)
             return marry(friends.get(rand.nextInt(friends.size())));
         else 
-            return name + " does not have any friends to be able to marry :(";
+            return name + " needs to make friends before he can wed";
     }
     
     private double kidsProbability() {
@@ -200,7 +200,7 @@ public class Human {
         Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
                 0, ethnicity, gender, 0);
         if (rand.nextDouble() < kidsProbability())
-            return gender.equals("male") && spouse != null ? 
+            return gender.equals("male") ? 
                     spouse.giveBirth(newChild, listOfNewChildren) : 
                     giveBirth(newChild, listOfNewChildren);
         else 
@@ -219,7 +219,7 @@ public class Human {
             return "Unfortunatly " + name + "has passed away at age " + 
                     age;
         } else {
-            return name + " is healthy as ever!"; 
+            return name + " is alive and kicking"; 
                         //could change based on what his health value actually is
         }
     }
