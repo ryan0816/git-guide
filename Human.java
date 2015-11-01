@@ -49,76 +49,78 @@ public class Human {
     }
 
     public int getAge() {
-        return Simulator.currentYear - Simulator.startYear + age;
+        return Simulator.currentYear - Simulator.startYear + this.age;
     }
 
     public String introduce() {
-        return "Hi, my name is " + name + " and I'm " + age + " years old";
+        return "Hi, my name is " + this.name + " and I'm " + this.age + " years old";
     }
 
     public String marry(Human toWed) {
-        if (toWed.name.equals(this.name)) {
+        if (age < 18) {
+            return this.name + " is too young to be married"
+        } else if (toWed.name.equals(this.name)) {
             return this.name + "trying to marry them selves!! Unfortunatly " + 
                     this.name + " is still single";
-        } else if (spouse == null && toWed.spouse == null) {
-            spouse = toWed;
+        } else if (this.spouse == null && toWed.spouse == null) {
+            this.spouse = toWed;
             toWed.spouse = this;
-            return name + " and " + spouse.name + " are now married";
+            return this.name + " and " + this.spouse.name + " are now married";
         } else {
-            return (spouse != null ? name : toWed.name) + " is already married";
+            return (this.spouse != null ? this.name : toWed.name) + " is already married";
         }
     }
 
     public String divorce() {
         if (spouse != null) {
             String ret;
-            ret =  name + " and " + spouse.name + " divorced";
-            spouse.spouse = null;
-            spouse = null;
+            ret =  this.name + " and " + this.spouse.name + " divorced";
+            this.spouse.spouse = null;
+            this.spouse = null;
             return ret;
         } else {
-            return name + " isn't even married";
+            return this.name + " isn't even married";
         }
     }
 
     public String giveBirth(Human child) {
-        if (!gender.equals("female")) {
-            return name + " has to be a female to give birth";
+        if (!this.gender.equals("female")) {
+            return this.name + " has to be a female to give birth";
         }
-        if (spouse == null) {
-            return name + " needs to be married to give birth";
+        if (this.spouse == null) {
+            return this.name + " needs to be married to give birth";
         }
-        if (!spouse.gender.equals("male")) {
-            return name + " can only give birth if her spouse is a male";
+        if (!this.spouse.gender.equals("male")) {
+            return this.name + " can only give birth if her spouse is a male";
         }
 
-        children.add(child);
-        spouse.children.add(child);
-        return name + " and " + spouse.name + " gave birth to a baby named " + 
-                child.name;
+        this.children.add(child);
+        this.spouse.children.add(child);
+        return this.name + " and " + this.spouse.name + " gave birth to a baby named " + 
+                this.child.name;
     }
 
     public String getJob(int money) {
-        if (employed != true) {
-            employed = true;
-            salary = money;
-            return name + " found a job that is paying " + 
-                    (gender.equals("male") ? "him" : "her") + " " + 
-                    salary + " per year";
+        if (this.employed != true) {
+            this.employed = true;
+            this.salary = money;
+            return this.name + " found a job that is paying " + 
+                    (this.gender.equals("male") ? "him" : "her") + " " + 
+                    this.salary + " per year";
         } else {
-            return name + " already has a job";
+            return this.name + " already has a job";
         }
     }
 
     public String leaveJob() {
-        if (employed == true) {
-            employed = false;
-            salary = 0;
-            return name + " has left " + 
-                    (gender.equals("male") ? "his" : "her") + " job";
+        if (this.employed == true) {
+            this.employed = false;
+            this.salary = 0;
+            return this.name + " has left " + 
+                    (this.gender.equals("male") ? "his" : "her") + " job";
         } else {
-            return name + " does not have a job " + 
-                    (gender.equals("male") ? "he" : "she") + " can leave";
+            return this.name + " does not have a job " + 
+                    (this.gender.equals("male") ? "he" : "she") + " can leave";
         }
     }
 
@@ -158,12 +160,12 @@ public class Human {
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
-        if (age < 30) {
-            health++;
+        if (this.age < 30) {
+            this.health++;
         } else {
-            health--;
+            this.health--;
         }
-        if (health < 0) {
+        if (this.health < 0) {
             deceased.add(this);
             return "Unfortunatly " + this.name + "has passed away at age " + 
                     this.age;
