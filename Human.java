@@ -58,7 +58,7 @@ public class Human {
 
     public String marry(Human toWed) {
         if (age < 18) {
-            return this.name + " is too young to be married"
+            return this.name + " is too young to be married";
         } else if (toWed.name.equals(this.name)) {
             return this.name + "trying to marry them selves!! Unfortunatly " + 
                     this.name + " is still single";
