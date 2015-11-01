@@ -9,45 +9,59 @@ public class Simulator {
 
     public static void main(String[] args) {
         ArrayList<String> simulationEvents = new ArrayList<String>();
-        ArrayList<Human> comunity = new ArrayList<Human>();
+        ArrayList<Human> community = new ArrayList<Human>();
         Human andrew, bethany, riley, abhijeet, ashwin, luc, kelsey, baby;
 
         // Initialize the humans
-        comunity.add(new Human("Andrew", 23, "Vietnamese", "male", false, 0));
-        comunity.add(new Human("Bethany", 19, "Chinese", "female", true, 5000));
-        comunity.add(new Human("Riley", 23, "German", "male", false, 0));
-        comunity.add(new Human("Abhijeet", 23, "Indian", "male", false, 0));
-        comunity.add(new Human("Ashwin", 23, "Nepali", "male", true, 120000));
-        comunity.add(new Human("Luc", 27, "Vietnamese", "male", true, 70000));
-        comunity.add(new Human("Kelsey", 24, "Native American", "female", true, 50000));
-        comunity.add(new Human("Chuwali", 0, "Nepali", "female", false, 0));
+        community.add(new Human("Andrew", 23, "Vietnamese", "male", 0));
+        community.add(new Human("Bethany", 19, "Chinese", "female", 5000));
+        community.add(new Human("Riley", 23, "German", "male", 0));
+        community.add(new Human("Abhijeet", 23, "Indian", "male", 0));
+        community.add(new Human("Ashwin", 23, "Nepali", "male", 120000));
+        community.add(new Human("Luc", 27, "Vietnamese", "male", 70000));
+        community.add(new Human("Kelsey", 24, "Native American", "female", 50000));
+        community.add(new Human("Narin", 25, "Thailand", "female", 0));
+        community.add(new Human("Valery", 20, "Chinese", "female", 20000));
+        community.add(new Human("Victoria", 20, "Vietnamese", "female", 0));
+        community.add(new Human("Narin", 25, "Thailand", "female", 0));
+
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int year = 2015;
         while (currentYear < 2115) {
             ArrayList<Human> newChildren = new ArrayList<Human>();
             ArrayList<Human> deceased = new ArrayList<Human>();
-            
+            simulationEvents.add("----------------------------- " + currentYear + " -----------------------------");
             // each year you meet a friend
             Human newFriend;
-            for (Human person : comunity) {
+            for (Human person : community) {
                 // each year you spend time with someone in your community.
                 // if you aren't already friends you may become friends
-                newFriend = comunity.get(rand.nextInt(comunity.size()));
-                simulationEvents.add(person.makeNewFriend(newFriend));
+                newFriend = community.get(rand.nextInt(community.size()));
+                simulationEvents.add(person.spendTimeWith(newFriend));
                 
                 // this person may pursue marrage
-                simulationEvents.add(person.pursueMarried());
+            
+                simulationEvents.add(person.pursueMarrage());
                 
                 // this person may try to have kids
                 simulationEvents.add(person.tryForKids(newChildren));
                 
                 // check to make sure the person survived another year    
                 simulationEvents.add(person.checkVitals(deceased));
+
+                // wrap up the year with a summary of births and deaths
+                //simulationEvents.add(yearEndSummery(deceased, newChildren));
             }
             currentYear++;
-            comunity.remove(deceased);
-            comunity.addAll(newChildren);
+            community.remove(deceased);
+            community.addAll(newChildren);
         }
+
+        for (String line : simulationEvents) {
+            System.out.println(line);
+        }
+        System.out.println("The community grew from a mear 11 strangers to" + 
+            " blossoming community of " + community.size() + " members!");
     }
 }
