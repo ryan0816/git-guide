@@ -197,7 +197,8 @@ public class Human {
         if (friends.size() > 0)
             return marry(friends.get(rand.nextInt(friends.size())));
         else 
-            return name + " needs to make friends before he can wed";
+            return name + " needs to make friends before " + 
+                    (gender.equals("male") ? "he" : "she") + " can wed";
     }
     
     private static double fertilityProbability(int wifes_age) {
