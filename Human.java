@@ -185,7 +185,7 @@ public class Human {
                 0, this.ethnicity, gender, 0);
         if (rand.nextDouble() < kidsProbability())
             return gender.equals("male") && spouse != null ? 
-                spouse.giveBirth(newChild, newChildren) : giveBirth(newChild, listOfNewChildren);
+                spouse.giveBirth(newChild, listOfNewChildren) : giveBirth(newChild, listOfNewChildren);
         else 
             return "Wasn't able to have kids";
     }
