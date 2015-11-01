@@ -21,11 +21,12 @@ public class Human {
     public boolean employed;
     public int salary;
 
-    // Constants and variables used within class
+    // Constants and variables used within the class
     private Random rand;
     private static final double AGE_PROBABILTY = 0.5;
     private static final double ETHNICITY_PROBABILITY = 0.2;
     private static final double BASE_FRIENDSHIP_PROBABILTY = 0.75;
+    private static final int AGE_HEALTH_THRESHOLD = 40;
     private static final ArrayList<String> randNames = getRandomPeople();
 
     /**
@@ -166,7 +167,8 @@ public class Human {
     }
 
     private String makeNewFriend(Human newFriend) {
-        if (newFriend)
+        friends.add(newFriend);
+        return name + " is now friends with " + newFriend.name;
     }
     
     public String spendTimeWith(Human otherPerson) {
@@ -174,18 +176,18 @@ public class Human {
             return name + " had a great time hanging out with their friend " + otherPerson.name;
         } else {
             // possibly make a friend!!
-            double chanceOfBeingFriends = FRIENDSHIO_BASE_PROBABILTY;
+            double chanceOfBeingFriends = BASE_FRIENDSHIP_PROBABILTY;
             // for every year you differ in age you decrease your chances of being friends by 10%
-            chanceOfBeingFriends -= AGE_PROBABILTY * ageDiff(newFriend.age);
+            chanceOfBeingFriends -= AGE_PROBABILTY * ageDiff(otherPerson.age);
             // if you are a different ethnicity you decrease your changce of being friends by 30%
-            int sameNationality = ethnicity.equals(newFriend.ethnicity) ? 0 : 1;
+            int sameNationality = ethnicity.equals(otherPerson.ethnicity) ? 0 : 1;
             chanceOfBeingFriends -= ETHNICITY_PROBABILITY * sameNationality;
             
             if (rand.nextDouble() <= chanceOfBeingFriends) {
-                return makeNewFriend(newFriend);
+                return makeNewFriend(otherPerson);
             } else {
-                return name + " did not become friends " + otherPerson.name + 
-                                " after spending time together"; 
+                return name + " did not become friends with " + otherPerson.name + 
+                                " after spending time together :("; 
             }
         }
     }
@@ -197,38 +199,39 @@ public class Human {
             return name + " needs to make friends before he can wed";
     }
     
-    private double fertilityProbability() {
-        return -0.0016 * age * age + 0.0754 * age + 0.0352;
+    private static double fertilityProbability(int wifes_age) {
+        return -0.0016 * wifes_age * wifes_age + 0.0754 * wifes_age + 0.0352;
     }
 
     public String tryForKids(ArrayList<Human> listOfNewChildren) {
         if (spouse == null) {
             return name + " needs to be married to give birth";
         }
-        String gender = rand.nextBoolean() ? "male" : "female";
-        Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
-                0, ethnicity, gender, 0);
-        if (rand.nextDouble() < kidsProbability())
-            return gender.equals("male") ? 
-                    spouse.giveBirth(newChild, listOfNewChildren) : 
-                    giveBirth(newChild, listOfNewChildren);
-        else 
-            return "Wasn't able to have kids";
+
+        Human wife = gender.equals("male") ? spouse : this;
+        if (rand.nextDouble() < fertilityProbability(wife.age)) {
+            String childsGender = rand.nextBoolean() ? "male" : "female";
+            Human newChild = new Human(randNames.get(rand.nextInt(randNames.size())), 
+                                            0, ethnicity, childsGender, 0);
+            return wife.giveBirth(newChild, listOfNewChildren);
+        } else {
+            return name + " was not able to have kids";
+        }
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
-        if (age < 30) {
-            health++;
-        } else {
-            health--;
-        }
+        int ageThresholdReached = (age >= AGE_HEALTH_THRESHOLD ? -1 : 1);     
+        health += (rand.nextInt(3) + 1) * ageThresholdReached;
+
         if (health < 0) {
             deceased.add(this);
-            
-            return "Unfortunatly " + name + "has passed away at age " + 
-                    age;
+            return "Unfortunatly " + name + "has passed away at age " + age;
         } else {
-            return name + " is alive and kicking"; 
+            if (age >= AGE_HEALTH_THRESHOLD) {
+                return name + "'s health is declining. Life expectancy: " + health + "-" + health*3 + " years";
+            } else {
+                return name + "'s health is getting stronger every year!"; 
+            }
                         //could change based on what his health value actually is
         }
     }
