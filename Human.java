@@ -4,19 +4,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Human {
-    private final double AGE_PROBABILTY = 0.5;
-    private final double ETHNICITY_PROBABILITY = 0.20;
     public String name;
     private int age;
     public int health;
     public String ethnicity;
     public String gender;
+
     public Human spouse;
     public LinkedList<Human> children;
     public LinkedList<Human> friends;
-    private Random rand;
+
     public boolean employed;
     public int salary;
+
+    private Random rand;
+    private final double AGE_PROBABILTY = 0.5;
+    private final double ETHNICITY_PROBABILITY = 0.20;
 
     /**
      * Initialize the instance variables for a human
@@ -75,7 +78,7 @@ public class Human {
 
     public String giveBirth(Human child) {
         if (!gender.equals("female")) {
-            return name + " has to be a female";
+            return name + " has to be a female to give birth";
         }
         if (spouse == null) {
             return name + " needs to be married to give birth";
@@ -100,14 +103,13 @@ public class Human {
         }
     }
 
-    public void leaveJob() {
+    public String leaveJob() {
         if (employed == true) {
             employed = false;
             salary = 0;
-            System.out.println(name + " has left " + (gender.equals("male") ? "his" : "her") + " job");
+            return name + " has left " + (gender.equals("male") ? "his" : "her") + " job";
         } else {
-            System.out.println(
-                    name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave");
+            return name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave";
         }
     }
 
@@ -156,7 +158,7 @@ public class Human {
             deceased.add(this);
             return "Unfortunatly " + this.name + "has passed away at age " + this.age;
         } else {
-            return this.name " is healthy as ever!"; //could change based on what his health value actually is
+            return this.name + " is healthy as ever!"; //could change based on what his health value actually is
         }
     }
     
