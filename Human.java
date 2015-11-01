@@ -4,19 +4,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Human {
-    private final double AGE_PROBABILTY = 0.5;
-    private final double ETHNICITY_PROBABILITY = 0.20;
     public String name;
     private int age;
     public int health;
     public String ethnicity;
     public String gender;
+
     public Human spouse;
     public LinkedList<Human> children;
     public LinkedList<Human> friends;
-    private Random rand;
+
     public boolean employed;
     public int salary;
+
+    private Random rand;
+    private final double AGE_PROBABILTY = 0.5;
+    private final double ETHNICITY_PROBABILITY = 0.20;
 
     /**
      * Initialize the instance variables for a human
