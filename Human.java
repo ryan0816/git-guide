@@ -128,12 +128,12 @@ public class Human {
             return name + " can only give birth if her spouse is a male";
         }
 
-        children.add(child);
-        spouse.children.add(child);
-        newChildren.add(child);
+        children.add(baby);
+        spouse.children.add(baby);
+        kids.add(baby);
 
         return name + " and " + spouse.name + " gave birth to a baby named " + 
-                child.name;
+                baby.name;
     }
 
     public String getJob(int money) {
@@ -168,6 +168,7 @@ public class Human {
 
     private String makeNewFriend(Human newFriend) {
         friends.add(newFriend);
+        newFriend.friends.add(this);
         return name + " is now friends with " + newFriend.name;
     }
     
