@@ -21,14 +21,15 @@ public class Human {
     public int salary;
 
     private Random rand;
-    private final double AGE_PROBABILTY = 0.5;
-    private final double ETHNICITY_PROBABILITY = 0.20;
+    private final double AGE_PROBABILTY;
+    private final double ETHNICITY_PROBABILITY;
 
     private final ArrayList<String> randNames;
 
     /**
      * Initialize the instance variables for a human
      */
+
     public Human(String name, int age, String ethnicity, String gender, int salary) {
         this.name = name;
         this.age = age;
@@ -42,6 +43,8 @@ public class Human {
         randNames = getRandomPeople();
         rand = new Random();
         rand.setSeed(System.currentTimeMillis());
+        AGE_PROBABILTY = 0.5;
+        ETHNICITY_PROBABILITY = 0.20;
     }
 
     public Human(String name, int age, String ethnicity, String gender, 
@@ -68,38 +71,39 @@ public class Human {
     }
 
     public int getAge() {
-        return Simulator.currentYear - Simulator.startYear + age;
+        return Simulator.currentYear - Simulator.startYear + this.age;
     }
 
     public String introduce() {
-        return "Hi, my name is " + name + " and I'm " + age + " years old";
+        return "Hi, my name is " + this.name + " and I'm " + this.age + " years old";
     }
 
     public String marry(Human toWed) {
-        if (toWed.name.equals(this.name)) {
+        if (age < 18) {
+            return this.name + " is too young to be married";
+        } else if (toWed.name.equals(this.name)) {
             return this.name + "trying to marry them selves!! Unfortunatly " + 
                     this.name + " is still single";
-        } else if (spouse == null && toWed.spouse == null) {
-            spouse = toWed;
+        } else if (this.spouse == null && toWed.spouse == null) {
+            this.spouse = toWed;
             toWed.spouse = this;
-            return name + " and " + spouse.name + " are now married";
+            return this.name + " and " + this.spouse.name + " are now married";
         } else {
-            return (spouse != null ? name : toWed.name) + " is already married";
+            return (this.spouse != null ? this.name : toWed.name) + " is already married";
         }
     }
 
     public String divorce() {
         if (spouse != null) {
             String ret;
-            ret =  name + " and " + spouse.name + " divorced";
-            spouse.spouse = null;
-            spouse = null;
+            ret =  this.name + " and " + this.spouse.name + " divorced";
+            this.spouse.spouse = null;
+            this.spouse = null;
             return ret;
         } else {
-            return name + " isn't even married";
+            return this.name + " isn't even married";
         }
     }
-
 
     // assumes giveBirth is called with a married Human
     public String giveBirth(Human child, ArrayList<Human> newChildren) {
@@ -117,23 +121,26 @@ public class Human {
     }
 
     public String getJob(int money) {
-        if (employed != true) {
-            employed = true;
-            salary = money;
-            return name + " found a job that is paying " + (gender.equals("male") ? "him" : "her") + " "
-                + salary + " per year";
+        if (this.employed != true) {
+            this.employed = true;
+            this.salary = money;
+            return this.name + " found a job that is paying " + 
+                    (this.gender.equals("male") ? "him" : "her") + " " + 
+                    this.salary + " per year";
         } else {
-            return name + " already has a job";
+            return this.name + " already has a job";
         }
     }
 
     public String leaveJob() {
-        if (employed == true) {
-            employed = false;
-            salary = 0;
-            return name + " has left " + (gender.equals("male") ? "his" : "her") + " job";
+        if (this.employed == true) {
+            this.employed = false;
+            this.salary = 0;
+            return this.name + " has left " + 
+                    (this.gender.equals("male") ? "his" : "her") + " job";
         } else {
-            return name + " does not have a job " + (gender.equals("male") ? "he" : "she") + " can leave";
+            return this.name + " does not have a job " + 
+                    (this.gender.equals("male") ? "he" : "she") + " can leave";
         }
     }
 
@@ -184,14 +191,15 @@ public class Human {
     }
     
     public String checkVitals(ArrayList<Human> deceased) {
-        if (age < 30) {
-            health++;
+        if (this.age < 30) {
+            this.health++;
         } else {
-            health--;
+            this.health--;
         }
-        if (health < 0) {
+        if (this.health < 0) {
             deceased.add(this);
-            return "Unfortunatly " + this.name + "has passed away at age " + this.age;
+            return "Unfortunatly " + this.name + "has passed away at age " + 
+                    this.age;
         } else {
             return this.name + " is healthy as ever!"; 
                         //could change based on what his health value actually is
