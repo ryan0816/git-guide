@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Human {
+    // Human instance Variables
     public String name;
     private int age;
     public int health;
@@ -20,35 +21,33 @@ public class Human {
     public boolean employed;
     public int salary;
 
+    // Constants and variables used within class
     private Random rand;
-    private final double AGE_PROBABILTY;
-    private final double ETHNICITY_PROBABILITY;
-
-    private final ArrayList<String> randNames;
+    private static final double AGE_PROBABILTY = 0.5;
+    private static final double ETHNICITY_PROBABILITY = 0.2;
+    private static final ArrayList<String> randNames;
 
     /**
      * Initialize the instance variables for a human
      */
-
     public Human(String name, int age, String ethnicity, String gender, 
             int salary) {
-        name = name;
-        age = age;
+        this.name = name;
+        this.age = age;
         health = 1;
-        ethnicity = ethnicity;
-        gender = gender;
+        this.ethnicity = ethnicity;
+        this.gender = gender;
 
         spouse = null;
-        employed = salary > 0 ? true : false;
         children = new LinkedList<Human>();
         friends = new LinkedList<Human>();
+
+        this.salary = salary;
+        employed = salary > 0 ? true : false;
 
         randNames = getRandomPeople();
         rand = new Random();
         rand.setSeed(System.currentTimeMillis());
-        
-        AGE_PROBABILTY = 0.5;
-        ETHNICITY_PROBABILITY = 0.20;
     }
 
     public Human(String name, int age, String ethnicity, String gender, 
@@ -59,7 +58,7 @@ public class Human {
 
     private ArrayList<String> getRandomPeople() {
         ArrayList<String> lines = null;
-        
+
         try {
             FileReader fileReader = new FileReader("names.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -167,7 +166,7 @@ public class Human {
         double chanceOfBeingFriends = 0.75;
         // for every year you differ in age you decrease your chances of being friends by 10%
         int ageDiff = ageDiff(newFriend.age);
-        chanceOfBeingFriends -= AGE_PROBABILTY*ageDiff;
+        chanceOfBeingFriends -= AGE_PROBABILTY * ageDiff;
         
         // if you are a different ethnicity you decrease your changce of being friends by 30%
         int sameNationality = ethnicity.equals(newFriend.ethnicity) ? 0 : 1;
