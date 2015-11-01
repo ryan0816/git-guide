@@ -48,7 +48,11 @@ public class Human {
     }
 
     public String marry(Human toWed) {
-        if (spouse == null && toWed.spouse == null) {
+        if (toWed.name.equals(this.name)) {
+            return this.name + "trying to marry them selves!! Unfortunatly " + 
+                    this.name + " is still single";
+        }
+            (spouse == null && toWed.spouse == null) {
             spouse = toWed;
             toWed.spouse = this;
             return name + " and " + spouse.name + " are now married";
@@ -128,15 +132,13 @@ public class Human {
         return "Not yet supported";
     }
     
-    public String pursueMarried() {
-        return "Not yet supported";
+    public String pursueMarrage() {
+        Human potentialSpouse = friends.get(rand.nextInt(friends.size())); 
+        return marry(potentialSpouse);
     }
     
-
-
     private double kidsProbability() {
-        //probability = 9E-05*(age)^3 - 0.0098(age)^2 + 0.322*age - 2.2326
-        return 0.5;  // make this a function of age
+        return -0.0016 * this.age * this.age + 0.0754 * this.age + 0.0352;
     }
 
     public String tryForKids(ArrayList<Human> newChildren) {
