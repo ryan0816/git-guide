@@ -179,9 +179,9 @@ public class Human {
     
     public String spendTimeWith(Human otherPerson) {
         if (otherPerson.name.equals(this.name)) {
-            return name + " spent the year by themselves";
+            return name + " spent the year by " + (gender.equals("male") ? "himself" : "herself");
         } else if (friends.contains(otherPerson)) {
-            return name + " had a great time hanging out with their friend " + otherPerson.name;
+            return name + " had a great time hanging out with " + (gender.equals("male") ? "his" : "her") + " friend " + otherPerson.name;
         } else {
             // possibly make a friend!!
             double chanceOfBeingFriends = BASE_FRIENDSHIP_PROBABILTY;
