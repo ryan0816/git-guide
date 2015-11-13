@@ -8,4 +8,4 @@ Simulator.class: Simulator.java Human.java
 	javac Simulator.java
 
 clean: 
-	rm -f *.class *.txt
+	rm -f *.class simulation*.txt
