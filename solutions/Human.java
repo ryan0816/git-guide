@@ -88,34 +88,83 @@ public class Human {
     }
 
     public String introduce() {
-        // TODO GIT PROJECT
-        return "";
+        return "Hi, my name is " + name + " and I'm " + age + " years old";
     }
 
     public String marry(Human toWed) {
-        // TODO GIT PROJECT
-        return "";
+        if (age < 18 || toWed.age < 18) {
+            return (age < 18 ? name : toWed.name) + 
+                    " is too young to be married";
+        } else if (toWed.name.equals(name)) {
+            return name + " is trying to marry " + 
+                    (gender.equals("male") ? "himself" : "herself") + 
+                    "!! Unfortunatly, " + 
+                    (gender.equals("male") ? "he" : "she") + " is still single";
+        } else if (spouse == null && toWed.spouse == null) {
+            spouse = toWed;
+            toWed.spouse = this;
+
+            return name + " and " + spouse.name + " are now married";
+        } else {
+            return (spouse != null ? name : toWed.name) + " is already married";
+        }
     }
 
     public String divorce() {
-        // TODO GIT PROJECT
-        return "";
+        if (spouse != null) {
+            String ret;
+
+            ret =  name + " and " + spouse.name + " divorced";
+            spouse.spouse = null;
+            spouse = null;
+            
+            return ret;
+        } else {
+            return name + " isn't even married";
+        }
     }
 
     // assumes giveBirth is called with a married Human
     public String giveBirth(Human baby, ArrayList<Human> kids) {
-        // TODO GIT PROJECT
-        return "";
+        if (!gender.equals("female")) {
+            return name + " has to be a female to give birth";
+        }
+        if (!spouse.gender.equals("male")) {
+            return name + " can only give birth if her spouse is a male";
+        }
+
+        children.add(baby);
+        spouse.children.add(baby);
+        kids.add(baby);
+
+        return name + " and " + spouse.name + " gave birth to a baby named " + 
+                baby.name;
     }
 
     public String getJob(int money) {
-        // TODO GIT PROJECT
-        return "";
+        if (employed != true) {
+            employed = true;
+            salary = money;
+
+            return name + " found a job that is paying " + 
+                    (gender.equals("male") ? "him" : "her") + " " + 
+                    salary + " per year";
+        } else {
+            return name + " already has a job";
+        }
     }
 
     public String leaveJob() {
-        // TODO GIT PROJECT
-        return "";
+        if (employed == true) {
+            employed = false;
+            salary = 0;
+
+            return name + " has left " + 
+                    (gender.equals("male") ? "his" : "her") + " job";
+        } else {
+            return name + " does not have a job " + 
+                    (gender.equals("male") ? "he" : "she") + " can leave";
+        }
     }
 
     private int ageDiff(int otherAge) {
